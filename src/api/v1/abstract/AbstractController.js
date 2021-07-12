@@ -1,7 +1,7 @@
 const monk = require('monk');
 const db = monk(process.env.MONGO_URI);
 
-class AbstractService{
+class AbstractController{
     constructor(service){
         this.Service = service;
     }
@@ -76,4 +76,4 @@ class AbstractService{
 
 }
 
-module.exports = AbstractService;
+module.exports = AbstractController;
