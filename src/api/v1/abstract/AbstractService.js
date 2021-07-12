@@ -1,5 +1,5 @@
 const monk = require('monk');
-const db = monk(process.env.MONGO_URI);
+const db = monk(process.env.MONGO_URI_LOCAL);
 
 class AbstractService{
     constructor(model, collection){
