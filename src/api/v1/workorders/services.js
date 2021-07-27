@@ -9,6 +9,15 @@ class WorkOrderService extends AbstractService {
 		super(model, collection);
 	}
 
+	findTasks = async ({ id }) => {
+		try {
+			const workorderTasks = await TasksService.find({ workorderId: id });
+			return workorderTasks
+		} catch (error) {
+			throw error
+		}
+	}
+
 	create = async ({ body }) => {
 		try {
 			const { tasks, productId, ...bodyRest } = body;
