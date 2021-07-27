@@ -21,11 +21,12 @@ class Auth {
 			const user_permissions = user.permissions;
 
 			// configurations
-			const { permissions, status } = await configurationsService.findOne();
-			const users = await userService.find();
-			const companies = await companiesService.find();
-			const baseplans = await baseplansService.find();
-			const products = await productsService.find();
+			const permissions = []
+			const status = []
+			const users = []
+			const companies = []
+			const baseplans = []
+			const products = []
 
 			const response = {
 				user_permissions,
