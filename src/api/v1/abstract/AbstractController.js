@@ -1,5 +1,3 @@
-const monk = require('monk');
-
 class AbstractController{
     constructor(service){
         this.Service = service;
