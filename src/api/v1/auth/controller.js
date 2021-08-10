@@ -17,25 +17,9 @@ class Auth {
 			}
 			const [ user ] = logged_users;
 			const auth = user.password === req.body.password;
-			
-			const user_permissions = user.permissions;
-
-			// configurations
-			const permissions = []
-			const status = []
-			const users = []
-			const companies = []
-			const baseplans = []
-			const products = []
 
 			const response = {
-				user_permissions,
-				status,
-				permissions,
-				users,
-				companies,
-				baseplans,
-				products,
+				me: user
 			};
 
 			auth ? res.json(response) : res.status(400).send('Password incorrect.');

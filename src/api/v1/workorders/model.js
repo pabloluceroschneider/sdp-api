@@ -13,7 +13,7 @@ const schema = Joi.object({
 	status: Joi.string().trim().default('NOT_STARTED'),
 	observation: Joi.string().trim(),
 	purchaseOrder: Joi.string().trim(),
-	creationDate: Joi.date().default(new Date()),
+	creationDate: Joi.date(),
 	deliveryDate: Joi.date(),
 });
 
