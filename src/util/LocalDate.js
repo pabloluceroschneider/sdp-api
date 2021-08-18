@@ -26,7 +26,7 @@ class LocalDate {
     let hh = new Date(ISODate).toLocaleTimeString().split(":")[0];
     let [ yyyy, mm, dd ] = new Date(ISODate).toISOString().slice(0,10).split("-");
 
-    if (hh > 20){
+    if (hh < 3){
       dd = dd - 1;
     };
 
