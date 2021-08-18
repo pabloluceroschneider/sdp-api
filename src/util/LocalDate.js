@@ -29,9 +29,22 @@ class LocalDate {
 
   getLocalHour(ISODate) {
     let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
-    const hora = hh > 3 ? hh - 3 : hh;
+    
+    let hora = hh > 3 ? hh - 3 : hh;
+    
+    if (hora < 10) {
+      hora = '0'+ hora;
+    }
+    if (mm < 10) {
+      mm = '0'+ mm;
+    }
+    if (ss < 10) {
+      ss = '0'+ ss;
+    }
+    
     const segundos =  ss.split(" ")[0];
     const localHour = [ hora, mm, segundos ].join(":");
+    
     return localHour + ".000Z";
   }
 }
