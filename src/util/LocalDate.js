@@ -38,6 +38,7 @@ class LocalDate {
     let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
     
     let hora = Number(hh) > 3 ? Number(hh) - 3 : (24 + Number(hh)) - 3;
+    hora = hora === 24 ? 0 : hora;
 
     if (hora < 10) {
       hora = '0'+ Number(hora);
@@ -51,7 +52,7 @@ class LocalDate {
     
     const segundos =  ss.split(" ")[0];
     const localHour = [ hora, mm, segundos ].join(":");
-    console.log(`localHour`, localHour)
+
     return localHour + ".000Z";
   }
 }
