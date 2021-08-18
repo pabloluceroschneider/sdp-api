@@ -8,8 +8,8 @@ const schema = Joi.object({
 	assignedTo: Joi.string().trim(),
 	status: Joi.string().default('NOT_STARTED'),
 	observation: Joi.string().trim(),
-	startDate: Joi.date(),
-	lastUpdateDate: Joi.date(),
+	startDate: Joi.string().trim(),
+	lastUpdateDate: Joi.string().trim(),
 	priority: Joi.number(),
 });
 
