@@ -23,33 +23,14 @@ class LocalDate {
   }
 
   getLocalDate(ISODate) {
-    const date = new Date(ISODate).toLocaleDateString()
-    let [ year, month, dt ] = date.split("-")
-    if (dt < 10) {
-      dt = '0' + dt;
-    }
-    if (month < 10) {
-      month = '0' + month;
-    }
-    const localDate = [ year, month, dt ].join("-") + "T"
-    return localDate
+    const localDate = new Date(ISODate).toISOString().slice(0,11);
+    return localDate;
   }
 
   getLocalHour(ISODate) {
-    let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
-    if (Number(hh) < 10) {
-      hh = '0' + Number(hh);
-    }
-    if (Number(mm) < 10) {
-      console.log('mm :>> ', mm);
-      mm = '0' + Number(mm);
-    }
-    if (Number(ss) < 10) {
-      ss = '0' + Number(ss);
-    }
-    ss = ss + ".000Z";
-    const localHour = [ hh, mm, ss ].join(":")
-    return localHour
+    new Date(ISODate).toLocaleTimeString()
+    let localHour = new Date(ISODate).toLocaleTimeString()
+    return localHour + ".000Z"
   }
 }
 
