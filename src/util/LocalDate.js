@@ -23,14 +23,21 @@ class LocalDate {
   }
 
   getLocalDate(ISODate) {
-    const localDate = new Date(ISODate).toISOString().slice(0,11);
-    return localDate;
+    let hh = new Date(ISODate).toLocaleTimeString().split(":")[0];
+    let [ yyyy, mm, dd ] = new Date(ISODate).toISOString().slice(0,10).split("-");
+
+    if (hh > 20){
+      dd = dd - 1;
+    };
+
+    const localDate = [ yyyy, mm, dd ].join("-");
+    return localDate + "T";
   }
 
   getLocalHour(ISODate) {
     let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
     
-    let hora = hh > 3 ? hh - 3 : hh;
+    let hora = hh > 3 ? hh - 3 : (24 + hh) - 3;
     
     if (hora < 10) {
       hora = '0'+ hora;
