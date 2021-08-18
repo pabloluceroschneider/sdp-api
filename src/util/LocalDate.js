@@ -35,7 +35,8 @@ class LocalDate {
   }
 
   getLocalHour(ISODate) {
-    let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
+    let [ hh, mm, ss ] = new Date(ISODate).toISOString().split("T")[1].split(":");
+    ss = ss.split(".")[0];
     
     let hora = Number(hh) > 3 ? Number(hh) - 3 : (24 + Number(hh)) - 3;
     hora = hora === 24 ? 0 : hora;
