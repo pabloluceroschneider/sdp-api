@@ -37,21 +37,21 @@ class LocalDate {
   getLocalHour(ISODate) {
     let [ hh, mm, ss ] = new Date(ISODate).toLocaleTimeString().split(":");
     
-    let hora = hh > 3 ? hh - 3 : (24 + hh) - 3;
-    
+    let hora = Number(hh) > 3 ? Number(hh) - 3 : (24 + Number(hh)) - 3;
+
     if (hora < 10) {
-      hora = '0'+ hora;
+      hora = '0'+ Number(hora);
     }
     if (mm < 10) {
-      mm = '0'+ mm;
+      mm = '0'+ Number(mm);
     }
     if (ss < 10) {
-      ss = '0'+ ss;
+      ss = '0'+ Number(ss);
     }
     
     const segundos =  ss.split(" ")[0];
     const localHour = [ hora, mm, segundos ].join(":");
-    
+    console.log(`localHour`, localHour)
     return localHour + ".000Z";
   }
 }
