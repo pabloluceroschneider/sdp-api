@@ -14,6 +14,7 @@ const schema = Joi.object({
 	status: Joi.string().trim().default('NOT_STARTED'),
 	observation: Joi.string().trim(),
 	purchaseOrder: Joi.string().trim(),
+	assignedTo: Joi.string().trim(),
 	creationDate: Joi.string().trim().default(new LocalDate().date),
 	deliveryDate: Joi.string().trim(),
 });
