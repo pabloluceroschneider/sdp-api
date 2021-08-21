@@ -28,6 +28,15 @@ class WorkOrderService extends AbstractService {
 		}
 	}
 
+	findByAssignedTo = async ({ assignedTo }) => {
+		try {
+			const workorderTasks = await this.Collection.find({ assignedTo });
+			return workorderTasks
+		} catch (error) {
+			throw error
+		}
+	}
+
 	create = async ({ body }) => {
 		try {
 			const { tasks, productId, ...bodyRest } = body;

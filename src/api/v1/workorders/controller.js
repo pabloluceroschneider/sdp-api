@@ -15,6 +15,17 @@ class WorkordersController extends AbstractController{
       res.status(500).send(error)
     }
   }
+  
+  findByAssignedTo = async (req, res) => {
+    try {
+      const { assignedTo } = req.params;
+      const workorders = await this.Service.findByAssignedTo({ assignedTo });
+      res.send(workorders);
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+
 }
 
 module.exports = new WorkordersController(WorkordersService);
