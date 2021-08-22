@@ -2,6 +2,7 @@ const AbstractService = require('../abstract/AbstractService');
 const schema = require('./model');
 
 // services
+const CompaniesService = require('../companies/services');
 const ProductService = require('../products/services');
 const TasksService = require('../tasks/services');
 const CountersService = require('../counters/services');
@@ -31,7 +32,27 @@ class WorkOrderService extends AbstractService {
 	findByAssignedTo = async ({ assignedTo }) => {
 		try {
 			const workorderTasks = await this.Collection.find({ assignedTo });
-			return workorderTasks
+
+			const companies = await CompaniesService.find();
+			const companiesmapping = companies.reduce( (acc, it) => ({ ...acc, [it._id] : it.name }),{});
+
+			return workorderTasks.map( workorder => {
+				return {
+					_id: workorder._id,
+					batchNumber: workorder.batchNumber,
+					company: {
+						_id: workorder.product.companyId,
+						name: companiesmapping[workorder.product.companyId]
+					},
+					product: {
+						_id: workorder.product._id,
+						name: workorder.product.name,
+					},
+					basePlan: workorder.basePlan,
+					status: workorder.status,
+					deliveryDate: workorder.deliveryDate,
+				}
+			})
 		} catch (error) {
 			throw error
 		}
