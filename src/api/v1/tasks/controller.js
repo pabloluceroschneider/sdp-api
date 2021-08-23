@@ -6,10 +6,10 @@ class TasksController extends AbstractController{
     super(service);
   }
 
-  findByWorkOrderAndUsername = async (req, res) => {
+  findByUsername = async (req, res) => {
     try {
       const { workorder, username } = req.params;
-      const response = await this.Service.findByWorkOrderAndUsername({ workorder, username });
+      const response = await this.Service.findByUsername({ workorder, username });
       res.send(response)  
     } catch (error) {
       res.status(500).send(error)

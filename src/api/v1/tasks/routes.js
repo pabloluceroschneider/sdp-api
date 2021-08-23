@@ -1,9 +1,9 @@
 const express = require('express');
-const { create, find, findByWorkOrderAndUsername, findOne, findByAttribute, setPriority, upsert, update, remove } = require('./controller');
+const { create, find, findByUsername, findOne, findByAttribute, setPriority, upsert, update, remove } = require('./controller');
 const router = express.Router();
 
 router.get('/', find);
-router.get('/workorder/:workorder/assignedTo/:username', findByWorkOrderAndUsername);
+router.get('/assignedTo/:username', findByUsername);
 router.get('/:id', findOne);
 router.get('/:attribute/:value', findByAttribute);
 

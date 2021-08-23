@@ -7,14 +7,24 @@ class TasksService extends AbstractService {
 		super(model, collection);
 	}
 
-	findByWorkOrderAndUsername = async ({ workorder, username }) => {
+	findByUsername = async ({ username }) => {
 		try {
-			const [ w ] = await WorkOrdersService.find({ _id: workorder });
+			const workorders = await WorkOrdersService.findByAssignedTo({ assignedTo: username });
 			const tasks = await this.Collection.find({
-				workorderId: workorder,
 				assignedTo: username
+			});
+
+			const response = workorders.map( workorder => {
+				const thisTasks = [];
+				tasks.forEach( task => {
+					if (workorder._id == task.workorderId) {
+						thisTasks.push(task)
+					} 
+				})
+				return {...workorder, tasks: thisTasks}
 			})
-			return { workorder: w, tasks }
+
+			return response
 		} catch (error) {
 			throw error
 		}
