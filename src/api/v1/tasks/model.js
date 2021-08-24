@@ -11,6 +11,7 @@ const schema = Joi.object({
 	startDate: Joi.string().trim(),
 	lastUpdateDate: Joi.string().trim(),
 	priority: Joi.number(),
+	operatorNotes: Joi.string().allow(null).allow("")
 });
 
 module.exports = schema;
