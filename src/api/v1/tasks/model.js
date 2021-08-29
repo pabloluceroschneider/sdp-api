@@ -7,7 +7,7 @@ const schema = Joi.object({
 	done: Joi.number(),
 	assignedTo: Joi.string().trim(),
 	status: Joi.string().default('NOT_STARTED'),
-	observation: Joi.string().trim(),
+	observation: Joi.string().trim().allow(null).allow(" "),
 	startDate: Joi.date(),
 	lastUpdateDate: Joi.date(),
 	priority: Joi.number(),
