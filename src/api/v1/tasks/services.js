@@ -26,8 +26,12 @@ class TasksService extends AbstractService {
 				newTaskOrder,
 				...value
 			}) => {
+				if (_id){
+					const tasks = { workorderId: id, ...value };
+					return this.Collection.update({ _id }, { $set: tasks}, { upsert: true, multi: true })
+				}
 				const tasks = { workorderId: id, ...value };
-				return this.Collection.update({ _id }, { $set: tasks}, { upsert: true })
+					return this.Collection.insert(tasks)
 			})
 			return Promise.all(promises)
 
