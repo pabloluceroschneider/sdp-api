@@ -3,6 +3,7 @@ const ProductService = require('../products/services');
 const TasksService = require('../tasks/services');
 const CountersService = require('../counters/services');
 const schema = require('./model');
+const { LocalDate } = require('../../../util/LocalDate');
 
 class WorkOrderService extends AbstractService {
 	constructor(model, collection) {
@@ -18,6 +19,7 @@ class WorkOrderService extends AbstractService {
 				product: { ...product, _id: `${product._id}` },
 				batchNumber,
 				...bodyRest,
+				deliveryDate: bodyRest.deliveryDate ? LocalDate(bodyRest.deliveryDate) : null,
 			}
 			const validate = await this.Schema.validateAsync(itemToInsert);
 			const createdWorkOrder = await this.Collection.insert(validate);
@@ -35,6 +37,27 @@ class WorkOrderService extends AbstractService {
 			throw error;
 		}
 	};
+
+	update = async ({ id, values }) => {
+		try {
+				const element = await this.Collection.findOne({ _id: id });
+				if (!element) return;
+				const mappingElement = Object.entries({...element, ...values})
+				.reduce( (acc, [key, value]) => ({
+						...acc,
+						[key]: values[key] || value
+				}),{})
+				const { _id, ...restElement } = {
+					...mappingElement,
+					deliveryDate: values.deliveryDate ? LocalDate(values.deliveryDate) :null
+				};
+				const value = await this.Schema.validateAsync(restElement);
+				await this.Collection.update({ _id: id }, { $set: value });
+				return { _id, ...value };
+		} catch (error) {
+				throw error
+		}
+};
 
 	remove = async ({ id }) => {
 		try {
