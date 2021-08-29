@@ -12,6 +12,7 @@ const schema = Joi.object({
 	batchNumber: Joi.number(),
 	status: Joi.string().trim().default('NOT_STARTED'),
 	observation: Joi.string().trim(),
+	assignedTo: Joi.string().trim(),
 	purchaseOrder: Joi.string().trim(),
 	creationDate: Joi.date().default(new Date()),
 	deliveryDate: Joi.date(),
