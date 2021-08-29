@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const LocalDate = require('../../../util/LocalDate')
 
 const schema = Joi.object({
 	basePlan: Joi.string().trim().required(),
@@ -14,8 +15,9 @@ const schema = Joi.object({
 	observation: Joi.string().trim(),
 	assignedTo: Joi.string().trim(),
 	purchaseOrder: Joi.string().trim(),
-	creationDate: Joi.date().default(new Date()),
-	deliveryDate: Joi.date(),
+	assignedTo: Joi.string().trim(),
+	creationDate: Joi.string().trim().default(new LocalDate().date),
+	deliveryDate: Joi.string().trim(),
 });
 
 module.exports = schema;

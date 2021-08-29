@@ -1,4 +1,5 @@
 const express = require('express');
+const app_configurations = require('./app_configurations/routes')
 const auth = require('./auth/routes')
 const users = require('./users/routes')
 const companies = require('./companies/routes')
@@ -15,6 +16,7 @@ router.get('/', (req, res) => {
   });
 });
 
+router.use('/configurations', app_configurations)
 router.use('/auth', auth)
 router.use('/users', users)
 router.use('/companies', companies)

@@ -1,4 +1,8 @@
 const userService = require('../users/services');
+const configurationsService = require('../app_configurations/services');
+const companiesService = require('../companies/services');
+const baseplansService = require('../baseplans/services');
+const productsService = require('../products/services');
 
 class Auth {
 	login = async (req, res, next) => {
