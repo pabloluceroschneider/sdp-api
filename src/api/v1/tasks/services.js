@@ -17,6 +17,25 @@ class TasksService extends AbstractService {
 			throw error
 		}
 	}
+
+	upsert = async ({ id, tasks }) => {
+		try {
+			const promises = tasks.map( ({ 
+				_id,
+				tableData,
+				newTaskOrder,
+				...value
+			}) => {
+				const tasks = { workorderId: id, ...value };
+				return this.Collection.update({ _id }, { $set: tasks}, { upsert: true })
+			})
+			return Promise.all(promises)
+
+		} catch (error) {
+			throw error
+		}		
+	}
+
 }
 
 module.exports = new TasksService(schema, 'tasks');
