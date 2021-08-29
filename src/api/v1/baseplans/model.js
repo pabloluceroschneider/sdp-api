@@ -6,7 +6,7 @@ const schema = Joi.object({
 	tasks: Joi.array().items(
 		Joi.object({
 			name: Joi.string().trim().required(),
-			observation: Joi.string().trim(),
+			observation: Joi.string().allow(null).allow(""),
 		})
 	),
 });

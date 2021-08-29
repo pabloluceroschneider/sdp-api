@@ -68,9 +68,9 @@ class WorkOrderService extends AbstractService {
 				batchNumber,
 				...bodyRest,
 			}
-			// if (itemToInsert.deliveryDate){
-			// 	itemToInsert.deliveryDate = new LocalDate(itemToInsert.deliveryDate).date
-			// }
+			if (itemToInsert.deliveryDate){
+				itemToInsert.deliveryDate = new LocalDate(itemToInsert.deliveryDate).date
+			}
 			const validate = await this.Schema.validateAsync(itemToInsert);
 			const createdWorkOrder = await this.Collection.insert(validate);
 			const promiseTasks = tasks.map((t) =>
