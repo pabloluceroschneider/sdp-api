@@ -1,5 +1,7 @@
 const AbstractService = require('../abstract/AbstractService');
 const schema = require('./model');
+const { LocalDate } = require('../../../util/LocalDate');
+const HistoryService = require('../historic/services')
 
 class TasksService extends AbstractService {
 	constructor(model, collection) {
@@ -13,6 +15,24 @@ class TasksService extends AbstractService {
 			)
 			return Promise.all(promises)
 			
+		} catch (error) {
+			throw error
+		}
+	}
+
+	updateTask  = async ({ id, body }) => {
+		try {
+			const values = await this.update({ id, values: body });
+			const add_historial = {
+				refId: id,
+				collection: 'tasks',
+				values: body,
+				timestamp: LocalDate()
+			}
+			
+			await HistoryService.create({ body : add_historial})
+			
+			return values;
 		} catch (error) {
 			throw error
 		}
