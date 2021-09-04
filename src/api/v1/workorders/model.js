@@ -16,7 +16,7 @@ const schema = Joi.object({
 	assignedTo: Joi.string().trim(),
 	purchaseOrder: Joi.string().trim(),
 	creationDate: Joi.date().default(LocalDate()),
-	deliveryDate: Joi.date(),
+	deliveryDate: Joi.date().allow(null),
 });
 
 module.exports = schema;
