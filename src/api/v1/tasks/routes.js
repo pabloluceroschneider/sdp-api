@@ -1,5 +1,5 @@
 const express = require('express');
-const { create, find, findOne, findByAttribute, setPriority, update, remove, upsert, } = require('./controller');
+const { create, find, findOne, findByAttribute, setPriority, updateTask, remove, upsert, } = require('./controller');
 const router = express.Router();
 
 router.get('/', find);
@@ -8,7 +8,7 @@ router.get('/:id', findOne);
 router.get('/:attribute/:value', findByAttribute);
 router.put('/priority', setPriority);
 router.put('/bulk/upsert/:id', upsert);
-router.put('/:id', update);
+router.put('/:id', updateTask);
 router.delete('/:id', remove);
 
 module.exports = router;

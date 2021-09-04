@@ -19,7 +19,14 @@ class UsersService extends AbstractService {
 	};
 
 	findTasks = async ({ username }) => {
-		const tasks = await TasksService.find({ assignedTo: username }, { sort: { priority: 1 } })
+		const tasks = await TasksService.find(
+			{ 
+				assignedTo: username,
+				status: { $ne: 'FINISHED' },
+			}, 
+			{ 
+				sort: { priority: 1 },
+			})
 		
 		const products = await ProductsService.find();
 		const productsmapping = products.reduce( (acc, it) => ({ ...acc, [it._id] : it.name }),{})
