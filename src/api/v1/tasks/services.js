@@ -1,4 +1,4 @@
-const differenceInMinutes = require('date-fns/differenceInMinutes')
+const differenceInMinutes = require('date-fns/differenceInMinutes');
 const AbstractService = require('../abstract/AbstractService');
 const Schema = require('./model');
 const HistoryService = require('../historic/services');
@@ -49,16 +49,19 @@ class TasksService extends AbstractService {
 		return await HistoryService.create({ body : add_historial});
 	}
 
-	updateTask = async ({ id, body }) => {
+	updateTask = async ({ id, body, offline }) => {
 		try {
 			const { timeStart, timeEnd, ...values } = body;
 			const updatedTask = await this.update({ id, values });
-			await this.addHistorialRegister({ id, body });
-			await this.calculateTimestamps({ id, body });
+			
+			const online = Boolean(!offline);
+			if (online) {
+				await this.addHistorialRegister({ id, body });
+				await this.calculateTimestamps({ id, body });
+			}
 
 			return updatedTask;
 		} catch (error) {
-			console.log(`error`, error)
 			throw error
 		}
 	}

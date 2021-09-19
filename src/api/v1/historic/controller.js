@@ -13,7 +13,18 @@ class HistoryController extends AbstractController {
 		} catch (error) {
 			res.status(500).send(`${error}`);
 		}
-	};
+	}
+
+	bulk = async (req, res) => {
+		try {
+      const { body } = req;
+			const items = await this.Service.bulkTasks({ body });
+			res.status(200).send(items);
+		} catch (error) {
+			res.status(500).send(`${error}`);
+		}
+	}
+
 }
 
 module.exports = new HistoryController(HistoryService);
