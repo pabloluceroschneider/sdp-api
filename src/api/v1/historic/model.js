@@ -4,7 +4,8 @@ const schema = Joi.object({
 	refId: Joi.string().trim().required(),
 	collection: Joi.string().trim().required(),
 	values: Joi.any(),
-	timestamp: Joi.date(),
+	duration: Joi.number(),
+	timeStart: Joi.date(),
 });
 
 module.exports = schema;
