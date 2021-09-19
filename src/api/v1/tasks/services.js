@@ -34,15 +34,16 @@ class TasksService extends AbstractService {
 	}
 
 	addHistorialRegister = async ({ id, body }) => {
-		const { timeStart, ...values } = body;
+		const { timeStart, timeEnd, ...values } = body;
 		const duration = differenceInMinutes(
-      new Date(LocalDate()),
+      new Date(LocalDate(timeEnd)),
       new Date(LocalDate(timeStart)),
     );
 		const add_historial = {
 			refId: id,
 			collection: 'tasks',
 			values,
+			timeStart,
 			duration,
 		};
 		return await HistoryService.create({ body : add_historial});
@@ -50,14 +51,14 @@ class TasksService extends AbstractService {
 
 	updateTask = async ({ id, body }) => {
 		try {
-			const { timeStart, ...values } = body;
+			const { timeStart, timeEnd, ...values } = body;
 			const updatedTask = await this.update({ id, values });
 			await this.addHistorialRegister({ id, body });
 			await this.calculateTimestamps({ id, body });
-			await this.validateFinish({ id, body });
 
 			return updatedTask;
 		} catch (error) {
+			console.log(`error`, error)
 			throw error
 		}
 	}
@@ -87,6 +88,18 @@ class TasksService extends AbstractService {
 			throw error
 		}		
 	}
+
+	remove = async ({ id }) => {
+		try {
+			// Eliminar registro de historiales al eliminar la tarea...
+			// const historyToRemove = await HistoryService.findByTask({ id });
+			// historyToRemove.map( async (h) => await HistoryService.remove({ id: h._id }));
+			const deletedTask = await this.Collection.remove({ _id: id });
+			return deletedTask
+		} catch (error) {
+				throw error
+		}
+};
 }
 
 module.exports = new TasksService(Schema, 'tasks');

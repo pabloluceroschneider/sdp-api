@@ -6,6 +6,7 @@ const products = require('./products/routes')
 const baseplans = require('./baseplans/routes')
 const tasks = require('./tasks/routes')
 const workorders = require('./workorders/routes')
+const history = require('./historic/routes')
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/auth', auth)
+router.use('/history', history)
 router.use('/users', users)
 router.use('/companies', companies)
 router.use('/products', products)
