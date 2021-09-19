@@ -7,6 +7,7 @@ const schema = Joi.object({
 		Joi.object({
 			name: Joi.string().trim().required(),
 			observation: Joi.string().trim().allow(null).allow(""),
+			estimate: Joi.number().allow(null),
 		})
 	),
 });
