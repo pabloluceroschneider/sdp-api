@@ -10,6 +10,15 @@ class WorkOrderService extends AbstractService {
 		super(model, collection);
 	}
 
+	find = async (query = {}) => {
+		try {
+				const items = await this.Collection.find(query, { sort: { batchNumber: -1 }});
+				return items
+		} catch (error) {
+				throw error
+		}
+};
+
 	create = async ({ body }) => {
 		try {
 			const { tasks, productId, ...bodyRest } = body;

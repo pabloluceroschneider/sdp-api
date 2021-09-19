@@ -28,7 +28,7 @@ class TasksService extends AbstractService {
 		const duration = await calculateTaskDuration({ set });
 		const updatedTask = await this.update({ 
 			id, 
-			values : { duration },
+			values : { duration, priority: null },
 		});
 		return updatedTask;
 	}
