@@ -91,7 +91,7 @@ class TasksService extends AbstractService {
 
 	remove = async ({ id }) => {
 		try {
-			// Eliminar registro de historiales al eliminar la tarea...
+			// TODO: Eliminar registro de historiales al eliminar la tarea...
 			// const historyToRemove = await HistoryService.findByTask({ id });
 			// historyToRemove.map( async (h) => await HistoryService.remove({ id: h._id }));
 			const deletedTask = await this.Collection.remove({ _id: id });

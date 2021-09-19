@@ -1,7 +1,7 @@
 const AbstractService = require('../abstract/AbstractService')
 const schema = require('./model');
 
-class HistoryService extends AbstractService {
+class CompanyService extends AbstractService {
 	constructor(model, collection) {
 		super(model, collection);
 	}
@@ -25,4 +25,4 @@ class HistoryService extends AbstractService {
 
 }
 
-module.exports = new HistoryService(schema, 'companies');
+module.exports = new CompanyService(schema, 'companies');
