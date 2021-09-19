@@ -22,7 +22,7 @@ const LocalDate = (ISODate = new Date().toISOString()) => {
     local_minutes,
     local_seconds,
   ).toISOString();
-  return new Date(local_date).toISOString();
+  return local_date;
 }
 
 module.exports = {

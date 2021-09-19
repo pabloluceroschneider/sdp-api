@@ -77,10 +77,7 @@ class WorkOrderService extends AbstractService {
 				}),
 				{}
 			);
-			const { _id, ...restElement } = {
-				...mappingElement,
-				deliveryDate: values.deliveryDate ? LocalDate(values.deliveryDate) : null
-			};
+			const { _id, ...restElement } = mappingElement;
 			const value = await this.Schema.validateAsync(restElement);
 			await this.Collection.update({ _id: id }, { $set: value });
 			return { _id, ...value };
