@@ -23,7 +23,7 @@ class TasksService extends AbstractService {
 
 	calculateTimestamps = async ({ id, body }) => {
 		if (body.status !== 'FINISHED') return null;
-		const set = await HistoryService.find({ refId: id });
+		const set = await HistoryService.find({ refId: id, 'values.name': body.name });
 		const duration = await calculateTaskDuration({ set });
 		const updatedTask = await this.update({
 			id,
@@ -34,22 +34,31 @@ class TasksService extends AbstractService {
 
 	addHistorialRegister = async ({ id, body }) => {
 		const { timeStart, timeEnd, ...values } = body;
-		const [ task ] = await this.find({ _id: id });
 		const duration = differenceInMinutes(new Date(LocalDate(timeEnd)), new Date(LocalDate(timeStart)));
 		const add_historial = {
 			refId: id,
 			collection: 'tasks',
 			values,
 			timeStart,
-			duration: duration / task.quantity
+			duration: duration / (body.done || 1),
 		};
 		return await HistoryService.create({ body: add_historial });
 	};
 
 	updateTask = async ({ id, body, offline }) => {
 		try {
-			const { timeStart, timeEnd, ...values } = body;
-			const updatedTask = await this.update({ id, values });
+
+			const element = await this.Collection.findOne({ _id: id });
+
+			const newElement = {
+				...element,
+				...body,
+				done: Number(element.done) + Number(body.done),
+			}
+
+			const { _id, timeStart, timeEnd, ...restElement } = newElement;
+			const value = await this.Schema.validateAsync(restElement);
+			await this.Collection.update({ _id: id }, { $set: value });
 
 			const online = Boolean(!offline);
 			if (online) {
@@ -57,8 +66,9 @@ class TasksService extends AbstractService {
 				await this.calculateTimestamps({ id, body });
 			}
 
-			return updatedTask;
+			return { _id, ...value };
 		} catch (error) {
+			console.log(`error`, error)
 			throw error;
 		}
 	};
