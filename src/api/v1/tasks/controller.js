@@ -16,12 +16,22 @@ class TasksController extends AbstractController{
     }
   }
 
+  record = async (req, res) => {
+    try {
+      const { name } = req.params;
+      const response = await this.Service.record({ name });
+      res.send(response)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+
   updateTask = async (req, res) => {
     try {
       const { body } = req;
       const { id } = req.params;
-      const { offline } = req.query;
-      const response = await this.Service.updateTask({ id, body, offline });
+      const { offline, accumulateDone } = req.query;
+      const response = await this.Service.updateTask({ id, body, offline, accumulateDone });
       res.send(response);
     } catch (error) {
       res.status(500).send(error)
