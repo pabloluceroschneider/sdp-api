@@ -21,6 +21,15 @@ class TasksService extends AbstractService {
 		}
 	};
 
+	record = async ({ name }) => {
+		try {
+			const set = await this.find({ name, status: 'FINISHED' }, { sort: { duration: 1 },  limit: 10 });
+			return set;
+		} catch (error) {
+			throw error;
+		}
+	};
+
 	calculateTimestamps = async ({ id, body }) => {
 		if (body.status !== 'FINISHED') return null;
 		const set = await HistoryService.find({ refId: id, 'values.name': body.name });
@@ -45,15 +54,32 @@ class TasksService extends AbstractService {
 		return await HistoryService.create({ body: add_historial });
 	};
 
-	updateTask = async ({ id, body, offline }) => {
+	validateDoneQuantity = ({ body, element, accumulateDone }) => {
+		const newDone = body.done;
+		if (accumulateDone) {
+			newDone += Number(element.done)
+		}
+		if (newDone > element.quantity){
+			return true;
+		}
+		return false;
+	}
+
+	updateTask = async ({ id, body, offline, accumulateDone }) => {
 		try {
 
 			const element = await this.Collection.findOne({ _id: id });
+			if (this.validateDoneQuantity({ body, element, accumulateDone })){
+				throw Error(`Se superó la cantidad de tareas`);
+			}
 
 			const newElement = {
 				...element,
 				...body,
-				done: Number(element.done) + Number(body.done),
+			}
+
+			if (accumulateDone) {
+				newElement.done += Number(element.done)
 			}
 
 			const { _id, timeStart, timeEnd, ...restElement } = newElement;
