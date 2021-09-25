@@ -54,8 +54,11 @@ class TasksService extends AbstractService {
 		return await HistoryService.create({ body: add_historial });
 	};
 
-	validateDoneQuantity = ({ body, element }) => {
-		const newDone = body.done + element.done;
+	validateDoneQuantity = ({ body, element, accumulateDone }) => {
+		const newDone = body.done;
+		if (accumulateDone) {
+			newDone += Number(element.done)
+		}
 		if (newDone > element.quantity){
 			return true;
 		}
@@ -66,7 +69,7 @@ class TasksService extends AbstractService {
 		try {
 
 			const element = await this.Collection.findOne({ _id: id });
-			if (this.validateDoneQuantity({ body, element })){
+			if (this.validateDoneQuantity({ body, element, accumulateDone })){
 				throw Error(`Se superó la cantidad de tareas`);
 			}
 
