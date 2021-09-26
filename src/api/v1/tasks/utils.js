@@ -7,6 +7,8 @@ module.exports.calculateTaskDuration = async ({ set }) => {
     total = total+done;
     return acc + (duration*done);
   };
-  const durationTask = set.reduce(reduceTimes, 0) / total;
+  const sum = set.reduce(reduceTimes, 0)
+  if (!total) return 0
+  const durationTask = sum / total;
   return durationTask.toFixed(2)
 };

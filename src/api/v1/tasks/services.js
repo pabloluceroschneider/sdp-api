@@ -94,7 +94,6 @@ class TasksService extends AbstractService {
 
 			return { _id, ...value };
 		} catch (error) {
-			console.log(`error`, error)
 			throw error;
 		}
 	};
