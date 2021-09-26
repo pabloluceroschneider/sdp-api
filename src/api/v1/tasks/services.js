@@ -79,7 +79,7 @@ class TasksService extends AbstractService {
 	};
 
 	validateDoneQuantity = ({ body, element, accumulateDone }) => {
-		const newDone = body.done;
+		let newDone = body.done;
 		if (accumulateDone) {
 			newDone += Number(element.done)
 		}
@@ -97,12 +97,12 @@ class TasksService extends AbstractService {
 				throw Error(`Se superó la cantidad de tareas`);
 			}
 
-			const newElement = {
+			let newElement = {
 				...element,
 				...body,
 			}
 
-			if (accumulateDone) {
+			if (accumulateDone && body.done > 0) {
 				newElement.done += Number(element.done)
 			}
 
