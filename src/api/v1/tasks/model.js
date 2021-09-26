@@ -4,7 +4,7 @@ const schema = Joi.object({
 	workorderId: Joi.string().trim().required(),
 	name: Joi.string().trim().required(),
 	quantity: Joi.number(),
-	done: Joi.number(),
+	done: Joi.number().allow(null),
 	assignedTo: Joi.string().trim(),
 	status: Joi.string().default('NOT_STARTED'),
 	observation: Joi.string().trim().allow(null).allow(""),

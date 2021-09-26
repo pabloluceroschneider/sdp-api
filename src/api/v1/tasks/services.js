@@ -1,3 +1,5 @@
+const monk = require('monk');
+const db = monk(process.env.MONGO_URI);
 const differenceInMinutes = require('date-fns/differenceInMinutes');
 const AbstractService = require('../abstract/AbstractService');
 const Schema = require('./model');
@@ -30,7 +32,28 @@ class TasksService extends AbstractService {
 		}
 	};
 
-	calculateTimestamps = async ({ id, body }) => {
+	stampDurationInPlanBase = async ({id, body, element}) => {
+		//
+		const workoderCollection = db.get('workorders');
+		const workorder = await workoderCollection.findOne({ _id: element.workorderId });
+		//
+		const basePlanCollection = db.get('baseplans');
+		const basePlan = await basePlanCollection.findOne({ name: workorder.basePlan });
+		//
+		const tasks = basePlan.tasks;
+		const set = await this.find({ name: element.name, status: 'FINISHED' }, { sort: { duration: 1 },  limit: 10 });
+		let estimate = set.reduce((acc, item) => acc + item.duration, 0) / set.length;
+		estimate = estimate.toFixed(2);
+		tasks.forEach( task => {
+			if (task.name === element.name){
+				task.estimate = estimate;
+			}
+		})
+		//
+		await basePlanCollection.update({ _id: basePlan._id }, { $set: { tasks: tasks } });
+	}
+
+	calculateTimestamps = async ({ id, body, element }) => {
 		if (body.status !== 'FINISHED') return null;
 		const set = await HistoryService.find({ refId: id, 'values.name': body.name });
 		const duration = await calculateTaskDuration({ set });
@@ -38,6 +61,7 @@ class TasksService extends AbstractService {
 			id,
 			values: { duration, priority: null }
 		});
+		await this.stampDurationInPlanBase({id, body, element});
 		return updatedTask;
 	};
 
@@ -55,7 +79,7 @@ class TasksService extends AbstractService {
 	};
 
 	validateDoneQuantity = ({ body, element, accumulateDone }) => {
-		const newDone = body.done;
+		let newDone = body.done;
 		if (accumulateDone) {
 			newDone += Number(element.done)
 		}
@@ -73,12 +97,12 @@ class TasksService extends AbstractService {
 				throw Error(`Se superó la cantidad de tareas`);
 			}
 
-			const newElement = {
+			let newElement = {
 				...element,
 				...body,
 			}
 
-			if (accumulateDone) {
+			if (accumulateDone && body.done > 0) {
 				newElement.done += Number(element.done)
 			}
 
@@ -88,8 +112,8 @@ class TasksService extends AbstractService {
 
 			const online = Boolean(!offline);
 			if (online) {
-				await this.addHistorialRegister({ id, body });
-				await this.calculateTimestamps({ id, body });
+				await this.addHistorialRegister({ id, body, element });
+				await this.calculateTimestamps({ id, body, element });
 			}
 
 			return { _id, ...value };
