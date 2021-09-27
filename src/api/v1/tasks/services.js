@@ -74,7 +74,7 @@ class TasksService extends AbstractService {
 			collection: 'tasks',
 			values,
 			timeStart,
-			duration: duration / (body.done || 1),
+			duration: (duration / (body.done || 1)).toFixed(2),
 		};
 		return await HistoryService.create({ body: add_historial });
 	};
