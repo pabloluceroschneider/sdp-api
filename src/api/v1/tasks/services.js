@@ -25,7 +25,7 @@ class TasksService extends AbstractService {
 
 	record = async ({ name }) => {
 		try {
-			const set = await this.find({ name, status: 'FINISHED' }, { sort: { duration: 1 },  limit: 10 });
+			const set = await this.find({ name, status: 'FINISHED', duration: { $gt: 0 } }, { sort: { duration: 1 },  limit: 10 });
 			return set;
 		} catch (error) {
 			throw error;
@@ -67,6 +67,7 @@ class TasksService extends AbstractService {
 
 	addHistorialRegister = async ({ id, body }) => {
 		const { timeStart, timeEnd, ...values } = body;
+		if (!timeStart) return;
 		const duration = differenceInMinutes(new Date(LocalDate(timeEnd)), new Date(LocalDate(timeStart)));
 		const add_historial = {
 			refId: id,

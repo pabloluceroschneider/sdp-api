@@ -11,7 +11,7 @@ class HistoryService extends AbstractService {
 	}
 	findByTask = async ({ id }) => {
 		try {
-			const items = await this.find({ refId: id });
+			const items = await this.find({ refId: id, duration: { $gt: 0 } });
 			return items.reverse();
 		} catch (error) {
 			throw error;
