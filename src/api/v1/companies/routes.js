@@ -1,8 +1,8 @@
 const express = require('express');
-const { create, find, findOne, findByAttribute, update, remove } = require('./controller');
+const { create, findcompanies, findOne, findByAttribute, update, remove } = require('./controller');
 const router = express.Router();
 
-router.get('/', find);
+router.get('/', findcompanies);
 router.post('/', create);
 router.get('/:id', findOne);
 router.get('/:attribute/:value', findByAttribute);

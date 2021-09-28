@@ -5,6 +5,10 @@ class CompanyService extends AbstractService {
 	constructor(model, collection) {
 		super(model, collection);
 	}
+
+  findcompanies = async () => {
+    return await this.find({}, { sort: { name: 1 } });
+  };
   
   create = async ({ body }) => {
     try {
