@@ -11,7 +11,7 @@ const schema = Joi.object({
 	operatorNotes: Joi.string().trim().allow(null).allow(""),
 	duration: Joi.number(),
 	estimate: Joi.number().allow(null),
-	lastUpdateDate: Joi.date(),
+	updateDate: Joi.date(),
 	priority: Joi.number().allow(null),
 });
 

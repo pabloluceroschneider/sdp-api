@@ -101,6 +101,7 @@ class TasksService extends AbstractService {
 			let newElement = {
 				...element,
 				...body,
+				updateDate: LocalDate(),
 			}
 
 			if (accumulateDone && body.done > 0) {
@@ -127,10 +128,10 @@ class TasksService extends AbstractService {
 	mapUpdateTasks = ({ id, tasks }) => {
 		return tasks.map(({ _id, tableData, newTaskOrder, ...value }) => {
 			if (_id) {
-				const tasks = { workorderId: id, ...value };
+				const tasks = { workorderId: id, ...value, updateDate: LocalDate() };
 				return this.Collection.update({ _id }, { $set: tasks }, { upsert: true, multi: true });
 			}
-			const tasks = { workorderId: id, ...value };
+			const tasks = { workorderId: id, ...value, updateDate: LocalDate() };
 			return this.Collection.insert(tasks);
 		});
 	};
