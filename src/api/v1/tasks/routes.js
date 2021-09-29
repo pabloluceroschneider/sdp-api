@@ -1,8 +1,8 @@
 const express = require('express');
-const { create, record, find, findOne, findByAttribute, setPriority, updateTask, remove, upsert, } = require('./controller');
+const { create, record, findTasks, findOne, findByAttribute, setPriority, updateTask, remove, upsert, } = require('./controller');
 const router = express.Router();
 
-router.get('/', find);
+router.get('/', findTasks);
 router.post('/', create);
 router.get('/record/:name', record);
 router.get('/:id', findOne);

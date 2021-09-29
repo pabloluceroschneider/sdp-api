@@ -6,6 +6,15 @@ class TasksController extends AbstractController{
     super(service);
   }
 
+  findTasks = async (req, res) => {
+    try {
+      const response = await this.Service.findTasks();
+      res.send(response)
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+
   setPriority = async (req, res) => {
     try {
       const { body: tasks } = req;

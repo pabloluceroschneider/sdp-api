@@ -1,4 +1,5 @@
 const Joi = require('@hapi/joi');
+const { LocalDate } = require('../../../util/LocalDate')
 
 const schema = Joi.object({
 	workorderId: Joi.string().trim().required(),
@@ -12,6 +13,7 @@ const schema = Joi.object({
 	duration: Joi.number(),
 	estimate: Joi.number().allow(null),
 	updateDate: Joi.date(),
+	creationDate: Joi.date().default(LocalDate()),
 	priority: Joi.number().allow(null),
 });
 

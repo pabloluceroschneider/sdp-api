@@ -11,6 +11,14 @@ class TasksService extends AbstractService {
 	constructor(model, collection) {
 		super(model, collection);
 	}
+	findTasks = async (query = {}, options = {}) => {
+		try {
+				const items = await this.Collection.find(query, { sort : { updateDate: -1, name: 1 } });
+				return items
+		} catch (error) {
+				throw error
+		}
+};
 
 	setPriority = async ({ tasks }) => {
 		try {
