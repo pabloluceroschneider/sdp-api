@@ -56,8 +56,8 @@ class WorkOrderService extends AbstractService {
 		const promises = tasks.map(async task => {
 			const set = await TasksService.find({ name: task.name, status: 'FINISHED' }, { sort: { duration: 1 },  limit: 10 });
 			if (!set.length) return task;
-			const estimate = set.reduce((acc, item) => acc + item.duration, 0) / set.length;
-			task.estimate = estimate.toFixed(2);
+			const calculated = set.reduce((acc, item) => acc + item.duration, 0) / set.length;
+			task.calculated = calculated.toFixed(2);
 			return task;
 		})
 		const newTasks = await Promise.all(promises);

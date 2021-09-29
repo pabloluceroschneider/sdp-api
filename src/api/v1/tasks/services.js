@@ -42,11 +42,11 @@ class TasksService extends AbstractService {
 		//
 		const tasks = basePlan.tasks;
 		const set = await this.find({ name: element.name, status: 'FINISHED' }, { sort: { duration: 1 },  limit: 10 });
-		let estimate = set.reduce((acc, item) => acc + item.duration, 0) / set.length;
-		estimate = estimate.toFixed(2);
+		let calculated = set.reduce((acc, item) => acc + item.duration, 0) / set.length;
+		calculated = calculated.toFixed(2);
 		tasks.forEach( task => {
 			if (task.name === element.name){
-				task.estimate = estimate;
+				task.calculated = calculated;
 			}
 		})
 		//
